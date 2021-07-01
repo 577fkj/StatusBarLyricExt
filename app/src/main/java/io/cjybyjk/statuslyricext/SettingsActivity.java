@@ -82,6 +82,7 @@ public class SettingsActivity extends FragmentActivity {
             versionName = pi.versionName;
         } catch (Exception e) {
             e.printStackTrace();
+            // todo "get versionName Faild"
         }
         return versionName;
     }
@@ -123,6 +124,7 @@ public class SettingsActivity extends FragmentActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             if (preference == mEnabledPreference) {
+                // todo check if permission allowed. If allowed, do nothing, If not allowed, start settings
                 startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
             } else {
                 String url = mUrlMap.get(preference.getKey());

@@ -1,27 +1,28 @@
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/preferences_header">
+
         <SwitchPreference
             android:key="enabled"
             android:title="@string/enabled_title" />
-        <io.cjybyjk.statuslyricext.preferences.PackageListPreference
-            android:title="@string/ignored_apps_title"
+        <io.cjybyjk.statuslyricext.fork.preferences.PackageListPreference
+            android:dependency="enabled"
             android:key="ignored_packages"
-            android:dependency="enabled" />
+            android:title="@string/ignored_apps_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/about_header"
-        android:key="about">
+    <PreferenceCategory
+        android:key="about"
+        android:title="@string/about_header">
 
         <Preference
             android:key="app"
             android:title="@string/app_name" />
         <Preference
-                android:key="app2"
-                android:title="@string/app_name2" />
+            android:key="source_app"
+            android:title="@string/source_app_name" />
         <Preference
-            android:key="lyricview"
+            android:key="lyric_view"
             android:title="LyricView" />
     </PreferenceCategory>
 

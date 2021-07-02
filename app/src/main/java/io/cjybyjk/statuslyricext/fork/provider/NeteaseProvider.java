@@ -1,4 +1,4 @@
-package io.cjybyjk.statuslyricext.provider;
+package io.cjybyjk.statuslyricext.fork.provider;
 
 import android.media.MediaMetadata;
 import android.util.Pair;
@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Locale;
 
-import io.cjybyjk.statuslyricext.provider.utils.HttpRequestUtil;
-import io.cjybyjk.statuslyricext.provider.utils.LyricSearchUtil;
+import io.cjybyjk.statuslyricext.fork.provider.utils.HttpRequestUtil;
+import io.cjybyjk.statuslyricext.fork.provider.utils.LyricSearchUtil;
 
 public class NeteaseProvider implements ILrcProvider {
 
@@ -19,6 +19,19 @@ public class NeteaseProvider implements ILrcProvider {
 
     private static final String NETEASE_SEARCH_URL_FORMAT = NETEASE_BASE_URL + "search/pc?s=%s&type=1&offset=0&limit=10";
     private static final String NETEASE_LRC_URL_FORMAT = NETEASE_BASE_URL + "song/lyric?os=pc&id=%d&lv=-1&kv=-1&tv=-1";
+    /**
+     * no lyrics id = 30780433
+     * https://music.163.com/api/song/lyric?os=pc&id=30780433&lv=-1&kv=-1&tv=-1
+     * {
+     *   "nolyric": true,
+     *   "sgc": false,
+     *   "sfy": true,
+     *   "qfy": true,
+     *   "needDesc": true,
+     *   "code": 200,
+     *   "briefDesc": null
+     * }
+     */
 
     @Override
     public LyricResult getLyric(MediaMetadata data) throws IOException {

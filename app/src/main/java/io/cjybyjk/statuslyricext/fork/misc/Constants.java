@@ -1,4 +1,4 @@
-package io.cjybyjk.statuslyricext.misc;
+package io.cjybyjk.statuslyricext.fork.misc;
 
 public class Constants {
     public static final String SHARED_PREFERENCES_NAME = "preferences";

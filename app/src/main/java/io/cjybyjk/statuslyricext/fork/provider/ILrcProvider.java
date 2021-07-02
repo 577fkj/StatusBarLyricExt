@@ -1,4 +1,4 @@
-package io.cjybyjk.statuslyricext.provider;
+package io.cjybyjk.statuslyricext.fork.provider;
 
 import android.media.MediaMetadata;
 

@@ -1,18 +1,18 @@
-package io.cjybyjk.statuslyricext;
+package io.cjybyjk.statuslyricext.fork;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -22,31 +22,16 @@ import androidx.preference.SwitchPreference;
 import java.util.HashMap;
 import java.util.Map;
 
-import StatusBarLyric.API.StatusBarLyric;
-import io.cjybyjk.statuslyricext.misc.Constants;
+import io.cjybyjk.statuslyricext.fork.R;
+import io.cjybyjk.statuslyricext.fork.misc.Constants;
 
 public class SettingsActivity extends FragmentActivity {
 
     private final static Map<String, String> mUrlMap = new HashMap<>();
 
-    public static void checkPermissions(Activity activity) {
-        if (checkSelfPermission(activity) == -1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.requestPermissions(new String[]{
-                        "android.permission.WRITE_EXTERNAL_STORAGE"
-                }, 1);
-            }
-        }
-    }
-
-    private static int checkSelfPermission(Context context) {
-        return context.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", android.os.Process.myPid(), android.os.Process.myUid());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkPermissions(this);
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -56,8 +41,8 @@ public class SettingsActivity extends FragmentActivity {
         }
 
         // add urls
-        mUrlMap.put("app", "https://github.com/577fkj/StatusBarLyricExt");
-        mUrlMap.put("app2", "https://github.com/cjybyjk/StatusBarLyricExt");
+        mUrlMap.put("app", "https://github.com/aimerneige/StatusBarLyricExt-fork");
+        mUrlMap.put("source_app", "https://github.com/cjybyjk/StatusBarLyricExt");
         mUrlMap.put("lyricview", "https://github.com/markzhai/LyricView");
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -69,11 +54,36 @@ public class SettingsActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * [Private] Check if the notification listener is enabled
+     * @param context Context
+     * @return boolean
+     */
     private static boolean isNotificationListenerEnabled(Context context) {
         if (context == null) return false;
-        return NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.getPackageName());
+        String pkgName = context.getPackageName();
+        final String flat = Settings.Secure.getString(context.getContentResolver(), Constants.SETTINGS_ENABLED_NOTIFICATION_LISTENERS);
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (String name : names) {
+                final ComponentName cn = ComponentName.unflattenFromString(name);
+                Log.d("AimerNeige", cn.getPackageName());
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
+    /**
+     * [Private] Get Current App Version Name
+     * @param context Context
+     * @return String contains current app version name.
+     *         For example: "1.0.2"
+     */
     private static String getAppVersionName(Context context) {
         String versionName = null;
         try {
@@ -82,7 +92,7 @@ public class SettingsActivity extends FragmentActivity {
             versionName = pi.versionName;
         } catch (Exception e) {
             e.printStackTrace();
-            // todo "get versionName Faild"
+            versionName = "undefined";
         }
         return versionName;
     }
@@ -96,7 +106,6 @@ public class SettingsActivity extends FragmentActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mEnabledPreference = findPreference(Constants.PREFERENCE_KEY_ENABLED);
             if (mEnabledPreference != null) {
-                mEnabledPreference.setTitle(String.format("%s (%s)", getString(R.string.enabled_title), new StatusBarLyric(getContext(), null, "", false).hasEnable() ? getString(R.string.activation) : getString(R.string.NotActivation)));
                 mEnabledPreference.setChecked(isNotificationListenerEnabled(getContext()));
                 mEnabledPreference.setOnPreferenceClickListener(this);
             }

@@ -1,18 +1,16 @@
 <resources>
-    <string name="app_name">" StatusBarLyricExt"</string>
+    <string name="app_name">StatusBarLyricExt-fork</string>
 
+    <string name="source_app_name">StatusBarLyricExt</string>
     <string name="profile_choose_app">Choose app</string>
     <string name="dialog_delete_title">Delete</string>
     <string name="dialog_delete_message">Remove selected item?</string>
     <string name="add_package_to_title">Add application</string>
 
     <!-- Preference Titles -->
-    <string name="preferences_header">Prefreences</string>
+    <string name="preferences_header">Preferences</string>
     <string name="about_header">About</string>
     <string name="enabled_title">Enabled</string>
     <string name="ignored_apps_title">Ignored apps</string>
-    <string name="app_name2">StatusBarLyricExt</string>
-    <string name="activation">activation</string>
-    <string name="NotActivation">Not activation</string>
 
 </resources>

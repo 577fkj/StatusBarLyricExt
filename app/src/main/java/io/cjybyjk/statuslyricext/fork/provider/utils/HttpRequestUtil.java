@@ -1,4 +1,4 @@
-package io.cjybyjk.statuslyricext.provider.utils;
+package io.cjybyjk.statuslyricext.fork.provider.utils;
 
 import android.text.TextUtils;
 

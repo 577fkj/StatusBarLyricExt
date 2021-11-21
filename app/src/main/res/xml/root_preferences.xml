@@ -18,6 +18,9 @@
             android:key="app"
             android:title="@string/app_name" />
         <Preference
+                android:key="app2"
+                android:title="@string/app_name2" />
+        <Preference
             android:key="lyricview"
             android:title="LyricView" />
     </PreferenceCategory>

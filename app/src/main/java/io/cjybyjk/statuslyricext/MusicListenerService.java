@@ -1,6 +1,5 @@
 package io.cjybyjk.statuslyricext;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -21,7 +20,6 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
@@ -34,8 +32,6 @@ import io.cjybyjk.statuslyricext.misc.Constants;
 
 public class MusicListenerService extends NotificationListenerService {
 
-    private static final int NOTIFICATION_ID_LRC = 1;
-
     private static final int MSG_LYRIC_UPDATE_DONE = 2;
 
     private MediaSessionManager mMediaSessionManager;
@@ -47,7 +43,6 @@ public class MusicListenerService extends NotificationListenerService {
 
     private Lyric mLyric;
     private String requiredLrcTitle;
-    private Notification mLyricNotification;
     private long mLastSentenceFromTime = -1;
 
     private final BroadcastReceiver mIgnoredPackageReceiver = new BroadcastReceiver() {
@@ -158,7 +153,6 @@ public class MusicListenerService extends NotificationListenerService {
         super.onListenerConnected();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mLyricNotification = buildLrcNotification();
         mMediaSessionManager = (MediaSessionManager) getSystemService(Context.MEDIA_SESSION_SERVICE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mIgnoredPackageReceiver, new IntentFilter(Constants.BROADCAST_IGNORED_APP_CHANGED));
         updateIgnoredPackageList();
@@ -171,18 +165,6 @@ public class MusicListenerService extends NotificationListenerService {
         unBindMediaListeners();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mIgnoredPackageReceiver);
         super.onListenerDisconnected();
-    }
-
-    private Notification buildLrcNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_LRC);
-        builder.setSmallIcon(R.drawable.ic_music);
-        builder.setOngoing(true);
-        Notification notification = builder.build();
-        notification.extras.putLong("ticker_icon", R.drawable.ic_music);
-        notification.extras.putBoolean("ticker_icon_switch", false);
-        notification.flags |= Constants.FLAG_ALWAYS_SHOW_TICKER;
-        notification.flags |= Constants.FLAG_ONLY_UPDATE_TICKER;
-        return notification;
     }
 
     private void bindMediaListeners() {
@@ -209,14 +191,13 @@ public class MusicListenerService extends NotificationListenerService {
 
     private void startLyric() {
         mLastSentenceFromTime = -1;
-        mLyricNotification.tickerText = null;
-        mNotificationManager.notify(NOTIFICATION_ID_LRC, mLyricNotification);
+        new Api().sendLyric(this, "", "", "miui.statusbar.lyric.ext", false);
         mHandler.post(mLyricUpdateRunnable);
     }
 
     private void stopLyric() {
         mHandler.removeCallbacks(mLyricUpdateRunnable);
-        mNotificationManager.cancel(NOTIFICATION_ID_LRC);
+        new Api().stopLyric(this);
     }
 
     private void updateLyric(long position) {
@@ -224,9 +205,7 @@ public class MusicListenerService extends NotificationListenerService {
         Lyric.Sentence sentence = LyricUtils.getSentence(mLyric, position);
         if (sentence == null) return;
         if (sentence.fromTime != mLastSentenceFromTime) {
-            mLyricNotification.tickerText = sentence.content;
-            mLyricNotification.when = System.currentTimeMillis();
-            mNotificationManager.notify(NOTIFICATION_ID_LRC, mLyricNotification);
+            new Api().sendLyric(this, sentence.content, "", "miui.statusbar.lyric.ext", false);
             mLastSentenceFromTime = sentence.fromTime;
         }
     }

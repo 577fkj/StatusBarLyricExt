@@ -3,6 +3,7 @@ package io.cjybyjk.statuslyricext;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,12 +19,14 @@ import java.io.IOException;
  */
 public class Api {
     String PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/media/miui.statusbar.lyric/";
+    String TAG = Api.class.getSimpleName();
 
     /**
      * SendLyric / 发送歌词
      * @param context，lyric, icon, packName, useSystemMusicActive(是否使用系统检测音乐是否播放)
      */
     public void sendLyric(Context context, String lyric, String icon, String packName, boolean useSystemMusicActive) {
+        Log.d(TAG, "sendLyric: lyric:" + lyric + " packName:" + packName);
         if (new Config().isFileLyric()) {
             setLyricFile(packName, lyric, icon, useSystemMusicActive);
         } else {

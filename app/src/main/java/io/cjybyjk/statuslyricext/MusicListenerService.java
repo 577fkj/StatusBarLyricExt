@@ -205,7 +205,7 @@ public class MusicListenerService extends NotificationListenerService {
         if (sentence == null) return;
         if (sentence.fromTime != mLastSentenceFromTime) {
             if (!TextUtils.isEmpty(sentence.content)) {
-                new Api().sendLyric(this, sentence.content, "", "miui.statusbar.lyric.ext", false);
+                new Api().sendLyric(this, sentence.content.replace("&apos;", "'"), "", "io.cjybyjk.statuslyricext", false);
             }
             mLastSentenceFromTime = sentence.fromTime;
         }

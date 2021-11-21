@@ -191,7 +191,6 @@ public class MusicListenerService extends NotificationListenerService {
 
     private void startLyric() {
         mLastSentenceFromTime = -1;
-        new Api().sendLyric(this, "", "", "miui.statusbar.lyric.ext", false);
         mHandler.post(mLyricUpdateRunnable);
     }
 
@@ -205,7 +204,9 @@ public class MusicListenerService extends NotificationListenerService {
         Lyric.Sentence sentence = LyricUtils.getSentence(mLyric, position);
         if (sentence == null) return;
         if (sentence.fromTime != mLastSentenceFromTime) {
-            new Api().sendLyric(this, sentence.content, "", "miui.statusbar.lyric.ext", false);
+            if (!TextUtils.isEmpty(sentence.content)) {
+                new Api().sendLyric(this, sentence.content, "", "miui.statusbar.lyric.ext", false);
+            }
             mLastSentenceFromTime = sentence.fromTime;
         }
     }

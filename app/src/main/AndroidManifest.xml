@@ -30,6 +30,9 @@
             android:theme="@android:style/Theme.DeviceDefault.Settings"
             android:requestLegacyExternalStorage="true"
             tools:targetApi="n">
+        <meta-data
+            android:name="XStatusBarLyric"
+            android:value="true" />
 
         <service
             android:name=".MusicListenerService"

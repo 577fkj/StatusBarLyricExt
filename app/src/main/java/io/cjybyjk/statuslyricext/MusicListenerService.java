@@ -29,6 +29,7 @@ import java.util.List;
 import cn.zhaiyifan.lyric.LyricUtils;
 import cn.zhaiyifan.lyric.model.Lyric;
 import io.cjybyjk.statuslyricext.misc.Constants;
+import statusbarsdk.statusbarlyric;
 
 public class MusicListenerService extends NotificationListenerService {
 
@@ -196,7 +197,7 @@ public class MusicListenerService extends NotificationListenerService {
 
     private void stopLyric() {
         mHandler.removeCallbacks(mLyricUpdateRunnable);
-        new Api().stopLyric(this);
+        new statusbarlyric(this, null, false).stopLyric();
     }
 
     private void updateLyric(long position) {
@@ -205,7 +206,7 @@ public class MusicListenerService extends NotificationListenerService {
         if (sentence == null) return;
         if (sentence.fromTime != mLastSentenceFromTime) {
             if (!TextUtils.isEmpty(sentence.content)) {
-                new Api().sendLyric(this, sentence.content.replace("&apos;", "'"), "", "io.cjybyjk.statuslyricext", false);
+                new statusbarlyric(this, null, false).updateLyric(sentence.content.replace("&apos;", "'"));
             }
             mLastSentenceFromTime = sentence.fromTime;
         }

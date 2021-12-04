@@ -12,5 +12,7 @@
     <string name="enabled_title">Enabled</string>
     <string name="ignored_apps_title">Ignored apps</string>
     <string name="app_name2">StatusBarLyricExt</string>
+    <string name="activation">activation</string>
+    <string name="NotActivation">Not activation</string>
 
 </resources>

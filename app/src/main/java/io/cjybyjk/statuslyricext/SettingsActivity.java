@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.cjybyjk.statuslyricext.misc.Constants;
+import statusbarsdk.statusbarlyric;
 
 public class SettingsActivity extends FragmentActivity {
 
@@ -108,6 +109,7 @@ public class SettingsActivity extends FragmentActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mEnabledPreference = findPreference(Constants.PREFERENCE_KEY_ENABLED);
             if (mEnabledPreference != null) {
+                mEnabledPreference.setTitle(String.format("%s (%s)", getString(R.string.enabled_title), new statusbarlyric(getContext(), null, false).hasEnable() ? getString(R.string.activation) : getString(R.string.NotActivation)));
                 mEnabledPreference.setChecked(isNotificationListenerEnabled(getContext()));
                 mEnabledPreference.setOnPreferenceClickListener(this);
             }

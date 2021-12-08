@@ -3,7 +3,6 @@ package io.cjybyjk.statuslyricext;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -11,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 
 import androidx.core.app.NotificationManagerCompat;
@@ -33,11 +31,9 @@ public class SettingsActivity extends FragmentActivity {
 
     public static void checkPermissions(Activity activity) {
         if (checkSelfPermission(activity) == -1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.requestPermissions(new String[]{
-                        "android.permission.WRITE_EXTERNAL_STORAGE"
-                }, 1);
-            }
+            activity.requestPermissions(new String[]{
+                    "android.permission.WRITE_EXTERNAL_STORAGE"
+            }, 1);
         }
     }
 

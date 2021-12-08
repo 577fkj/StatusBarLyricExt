@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "miui.statusbar.lyric.ext"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 4
         versionName "1.0.3"
@@ -32,7 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    implementation 'com.github.577fkj:MIUIStatusBarLyric:v1.1'
+    implementation 'com.github.577fkj:MIUIStatusBarLyric:3.37.14v65'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

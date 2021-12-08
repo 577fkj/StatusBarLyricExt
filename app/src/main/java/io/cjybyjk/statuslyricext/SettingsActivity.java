@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -23,8 +24,8 @@ import androidx.preference.SwitchPreference;
 import java.util.HashMap;
 import java.util.Map;
 
+import StatusbarLyric.API.StatusBarLyric;
 import io.cjybyjk.statuslyricext.misc.Constants;
-import statusbarsdk.statusbarlyric;
 
 public class SettingsActivity extends FragmentActivity {
 
@@ -72,24 +73,11 @@ public class SettingsActivity extends FragmentActivity {
 
     private static boolean isNotificationListenerEnabled(Context context) {
         if (context == null) return false;
-        String pkgName = context.getPackageName();
-        final String flat = Settings.Secure.getString(context.getContentResolver(), Constants.SETTINGS_ENABLED_NOTIFICATION_LISTENERS);
-        if (!TextUtils.isEmpty(flat)) {
-            final String[] names = flat.split(":");
-            for (String name : names) {
-                final ComponentName cn = ComponentName.unflattenFromString(name);
-                if (cn != null) {
-                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.getPackageName());
     }
 
     private static String getAppVersionName(Context context) {
-        String versionName=null;
+        String versionName = null;
         try {
             PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
@@ -109,7 +97,7 @@ public class SettingsActivity extends FragmentActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mEnabledPreference = findPreference(Constants.PREFERENCE_KEY_ENABLED);
             if (mEnabledPreference != null) {
-                mEnabledPreference.setTitle(String.format("%s (%s)", getString(R.string.enabled_title), new statusbarlyric(getContext(), null, false).hasEnable() ? getString(R.string.activation) : getString(R.string.NotActivation)));
+                mEnabledPreference.setTitle(String.format("%s (%s)", getString(R.string.enabled_title), new StatusBarLyric(getContext(), null, "", false).hasEnable() ? getString(R.string.activation) : getString(R.string.NotActivation)));
                 mEnabledPreference.setChecked(isNotificationListenerEnabled(getContext()));
                 mEnabledPreference.setOnPreferenceClickListener(this);
             }

@@ -29,7 +29,7 @@ import java.util.List;
 import cn.zhaiyifan.lyric.LyricUtils;
 import cn.zhaiyifan.lyric.model.Lyric;
 import io.cjybyjk.statuslyricext.misc.Constants;
-import StatusbarLyric.API.StatusBarLyric;
+import StatusBarLyric.API.StatusBarLyric;
 
 public class MusicListenerService extends NotificationListenerService {
 

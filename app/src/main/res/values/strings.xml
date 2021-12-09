@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MIUIStatusBarLyricExt</string>
+    <string name="app_name">" StatusBarLyricExt"</string>
 
     <string name="profile_choose_app">Choose app</string>
     <string name="dialog_delete_title">Delete</string>

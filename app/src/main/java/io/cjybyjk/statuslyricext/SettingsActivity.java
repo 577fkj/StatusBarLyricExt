@@ -21,8 +21,7 @@ import androidx.preference.SwitchPreference;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import StatusbarLyric.API.StatusBarLyric;
+import StatusBarLyric.API.StatusBarLyric;
 import io.cjybyjk.statuslyricext.misc.Constants;
 
 public class SettingsActivity extends FragmentActivity {
@@ -31,9 +30,11 @@ public class SettingsActivity extends FragmentActivity {
 
     public static void checkPermissions(Activity activity) {
         if (checkSelfPermission(activity) == -1) {
-            activity.requestPermissions(new String[]{
-                    "android.permission.WRITE_EXTERNAL_STORAGE"
-            }, 1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity.requestPermissions(new String[]{
+                        "android.permission.WRITE_EXTERNAL_STORAGE"
+                }, 1);
+            }
         }
     }
 

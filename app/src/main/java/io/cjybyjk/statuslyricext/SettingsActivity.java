@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -21,6 +20,7 @@ import androidx.preference.SwitchPreference;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import StatusBarLyric.API.StatusBarLyric;
 import io.cjybyjk.statuslyricext.misc.Constants;
 

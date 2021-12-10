@@ -30,9 +30,11 @@ public class SettingsActivity extends FragmentActivity {
 
     public static void checkPermissions(Activity activity) {
         if (checkSelfPermission(activity) == -1) {
-            activity.requestPermissions(new String[]{
-                    "android.permission.WRITE_EXTERNAL_STORAGE"
-            }, 1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity.requestPermissions(new String[]{
+                        "android.permission.WRITE_EXTERNAL_STORAGE"
+                }, 1);
+            }
         }
     }
 

@@ -33,5 +33,5 @@ Forked from <https://github.com/cjybyjk/StatusBarLyricExt>
 - 联网获取歌词后显示在状态栏上
 
 ## 使用的开源项目
-- [StatusBarLyricExt](https://github.com/aimerneige/StatusBarLyricExt-fork)
+- [StatusBarLyricExt](https://github.com/cjybyjk/StatusBarLyricExt)
 - [LyricView](https://github.com/markzhai/LyricView)

@@ -3,16 +3,14 @@ package io.cjybyjk.statuslyricext.fork.provider;
 import android.media.MediaMetadata;
 import android.util.Base64;
 import android.util.Pair;
-
+import io.cjybyjk.statuslyricext.fork.provider.utils.HttpRequestUtil;
+import io.cjybyjk.statuslyricext.fork.provider.utils.LyricSearchUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Locale;
-
-import io.cjybyjk.statuslyricext.fork.provider.utils.HttpRequestUtil;
-import io.cjybyjk.statuslyricext.fork.provider.utils.LyricSearchUtil;
 
 public class QQMusicProvider implements ILrcProvider {
 
@@ -32,6 +30,7 @@ public class QQMusicProvider implements ILrcProvider {
                 Pair<String, Long> pair = getLrcUrl(array, data);
                 JSONObject lrcJson = HttpRequestUtil.getJsonResponse(pair.first, QM_REFERER);
                 LyricResult result = new LyricResult();
+                assert lrcJson != null;
                 result.mLyric = new String(Base64.decode(lrcJson.getString("lyric").getBytes(), Base64.DEFAULT));
                 result.mDistance = pair.second;
                 return result;

@@ -1,5 +1,6 @@
 package io.cjybyjk.statuslyricext.fork;
 
+import StatusBarLyric.API.StatusBarLyric;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ComponentName;
@@ -12,22 +13,62 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
+import io.cjybyjk.statuslyricext.fork.misc.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import io.cjybyjk.statuslyricext.fork.R;
-import io.cjybyjk.statuslyricext.fork.misc.Constants;
-
 public class SettingsActivity extends FragmentActivity {
 
     private final static Map<String, String> mUrlMap = new HashMap<>();
+
+    /**
+     * [Private] Check if the notification listener is enabled
+     *
+     * @param context Context
+     * @return boolean
+     */
+    private static boolean isNotificationListenerEnabled(Context context) {
+        if (context == null) return false;
+        String pkgName = context.getPackageName();
+        final String flat = Settings.Secure.getString(context.getContentResolver(), Constants.SETTINGS_ENABLED_NOTIFICATION_LISTENERS);
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (String name : names) {
+                final ComponentName cn = ComponentName.unflattenFromString(name);
+                Log.d("AimerNeige", cn.getPackageName());
+                if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * [Private] Get Current App Version Name
+     *
+     * @param context Context
+     * @return String contains current app version name.
+     * For example: "1.0.2"
+     */
+    private static String getAppVersionName(Context context) {
+        String versionName;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            versionName = "undefined";
+        }
+        return versionName;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,60 +82,15 @@ public class SettingsActivity extends FragmentActivity {
         }
 
         // add urls
-        mUrlMap.put("app", "https://github.com/aimerneige/StatusBarLyricExt-fork");
-        mUrlMap.put("source_app", "https://github.com/cjybyjk/StatusBarLyricExt");
+        mUrlMap.put("app", "https://github.com/577fkj/StatusBarLyricExt");
+        mUrlMap.put("source_app", "https://github.com/aimerneige/StatusBarLyricExt-fork");
         mUrlMap.put("lyricview", "https://github.com/markzhai/LyricView");
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_LRC, "LRC", NotificationManager.IMPORTANCE_MIN);
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
+        NotificationChannel channel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_LRC, "LRC", NotificationManager.IMPORTANCE_MIN);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    /**
-     * [Private] Check if the notification listener is enabled
-     * @param context Context
-     * @return boolean
-     */
-    private static boolean isNotificationListenerEnabled(Context context) {
-        if (context == null) return false;
-        String pkgName = context.getPackageName();
-        final String flat = Settings.Secure.getString(context.getContentResolver(), Constants.SETTINGS_ENABLED_NOTIFICATION_LISTENERS);
-        if (!TextUtils.isEmpty(flat)) {
-            final String[] names = flat.split(":");
-            for (String name : names) {
-                final ComponentName cn = ComponentName.unflattenFromString(name);
-                Log.d("AimerNeige", cn.getPackageName());
-                if (cn != null) {
-                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * [Private] Get Current App Version Name
-     * @param context Context
-     * @return String contains current app version name.
-     *         For example: "1.0.2"
-     */
-    private static String getAppVersionName(Context context) {
-        String versionName = null;
-        try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionName = pi.versionName;
-        } catch (Exception e) {
-            e.printStackTrace();
-            versionName = "undefined";
-        }
-        return versionName;
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
@@ -106,6 +102,7 @@ public class SettingsActivity extends FragmentActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mEnabledPreference = findPreference(Constants.PREFERENCE_KEY_ENABLED);
             if (mEnabledPreference != null) {
+                mEnabledPreference.setTitle(String.format("%s (%s)", getString(R.string.enabled_title), new StatusBarLyric(getContext(), null, "miui.statusbar.lyric.ext", false).hasEnable() ? getString(R.string.activation) : getString(R.string.NotActivation)));
                 mEnabledPreference.setChecked(isNotificationListenerEnabled(getContext()));
                 mEnabledPreference.setOnPreferenceClickListener(this);
             }

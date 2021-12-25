@@ -3,17 +3,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "io.cjybyjk.statuslyricext.fork"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.2"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId "miui.statusbar.lyric.ext"
+        minSdkVersion 26
+        targetSdkVersion 31
+        versionCode 6
+        versionName "2.0.0"
     }
 
     buildTypes {
@@ -32,8 +30,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.github.577fkj:StatusBarApiExample:v2.0'
+
 }
 repositories {
     mavenCentral()

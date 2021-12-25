@@ -10,4 +10,7 @@
     <string name="add_package_to_title">添加应用</string>
     <string name="enabled_title">启用</string>
     <string name="ignored_apps_title">忽略应用</string>
+    <string name="app_name2">StatusBarLyricExt</string>
+    <string name="activation">激活</string>
+    <string name="NotActivation">未激活</string>
 </resources>

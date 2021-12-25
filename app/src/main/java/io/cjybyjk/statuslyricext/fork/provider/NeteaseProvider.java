@@ -2,7 +2,8 @@ package io.cjybyjk.statuslyricext.fork.provider;
 
 import android.media.MediaMetadata;
 import android.util.Pair;
-
+import io.cjybyjk.statuslyricext.fork.provider.utils.HttpRequestUtil;
+import io.cjybyjk.statuslyricext.fork.provider.utils.LyricSearchUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,12 +11,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Locale;
 
-import io.cjybyjk.statuslyricext.fork.provider.utils.HttpRequestUtil;
-import io.cjybyjk.statuslyricext.fork.provider.utils.LyricSearchUtil;
-
 public class NeteaseProvider implements ILrcProvider {
 
-    private static final String NETEASE_BASE_URL = "http://music.163.com/api/";
+    private static final String NETEASE_BASE_URL = "https://music.163.com/api/";
 
     private static final String NETEASE_SEARCH_URL_FORMAT = NETEASE_BASE_URL + "search/pc?s=%s&type=1&offset=0&limit=10";
     private static final String NETEASE_LRC_URL_FORMAT = NETEASE_BASE_URL + "song/lyric?os=pc&id=%d&lv=-1&kv=-1&tv=-1";

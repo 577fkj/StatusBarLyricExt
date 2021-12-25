@@ -9,5 +9,5 @@
 - 联网获取歌词后显示在状态栏上
 
 ## 使用的开源项目
-- [StatusBarLyricExt](https://github.com/cjybyjk/StatusBarLyricExt)
+- [StatusBarLyricExt](https://github.com/aimerneige/StatusBarLyricExt-fork)
 - [LyricView](https://github.com/markzhai/LyricView)

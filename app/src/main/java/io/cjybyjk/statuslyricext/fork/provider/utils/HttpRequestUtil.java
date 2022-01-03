@@ -21,9 +21,6 @@ public class HttpRequestUtil {
         URL httpUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept","text/html, application/xhtml+xml, */*");
-        connection.setRequestProperty("Accept-Language","en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3");
-        connection.setRequestProperty("Accept-Encoding","deflate");
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0");
         if (!TextUtils.isEmpty(referer)) {
             connection.setRequestProperty("Referer", referer);
